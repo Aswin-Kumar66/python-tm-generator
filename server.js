@@ -83,6 +83,8 @@ app.post('/generateMarksheets', p2Upload, async (req, res) => {
         message = result.stdout.toString();
         error = result.stderr.toString();
         console.log(error)
+        console.log(message)
+        console.log("print line 86")
         flag = 1;
     }
     if (req.body.download) {
