@@ -78,7 +78,7 @@ const p2Upload = upload.fields([{ name: 'master_roll', maxCount: 1 }, { name: 'r
 app.post('/generateMarksheets', p2Upload, async (req, res) => {
     positive = req.body.positive;
     negative = req.body.negative;
-    if (fs.existsSync('public\\sample_input\\master_roll.csv')) {
+    if (fs.existsSync('public//sample_input//master_roll.csv')) {
         // path exists
         console.log("exists:", 'public\\sample_input\\master_roll.csv');
     } else {
