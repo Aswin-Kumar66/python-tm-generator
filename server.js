@@ -79,7 +79,7 @@ app.post('/generateMarksheets', p2Upload, async (req, res) => {
     positive = req.body.positive;
     negative = req.body.negative;
     if (req.body.Roll_Number_wise) {
-        const result = spawnSync('python', ['pythonFiles\\marksheet_Generator.py', positive, negative]);
+        const result = spawnSync('python', ['marksheet_Generator.py', positive, negative]);
         message = result.stdout.toString();
         error = result.stderr.toString();
         console.log(error)
