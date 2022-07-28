@@ -106,5 +106,5 @@ app.post('/generateMarksheets', p2Upload, async (req, res) => {
 });
 
 // listen for requests
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Server started running on port ${port}`));
