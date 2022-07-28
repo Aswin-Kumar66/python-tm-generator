@@ -6,7 +6,7 @@ const { spawnSync } = require('child_process');
 const multer = require('multer');
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'public\\sample_input');
+        cb(null, 'public//sample_input');
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname);
