@@ -52,12 +52,14 @@ app.post('/generateTranscripts', p1Upload, async (req, res) => {
         const result = spawnSync('python', ['pythonFiles\\transcript_Generator.py', r_from, r_upto, all, stmp, sgn]);
         message1 = result.stdout.toString();
         error = result.stderr.toString();
+        console.log(error)
     }
     if (req.body.all) {
         all = 1, flag1 = 1;
         const result = spawnSync('python', ['pythonFiles\\transcript_Generator.py', r_from, r_upto, all, stmp, sgn]);
         message1 = result.stdout.toString();
         error = result.stderr.toString();
+        console.log(error)
     };
     if (req.body.download) {
         return res.download('./transcriptsIITP.zip',);
@@ -80,6 +82,7 @@ app.post('/generateMarksheets', p2Upload, async (req, res) => {
         const result = spawnSync('python', ['pythonFiles\\marksheet_Generator.py', positive, negative]);
         message = result.stdout.toString();
         error = result.stderr.toString();
+        console.log(error)
         flag = 1;
     }
     if (req.body.download) {
