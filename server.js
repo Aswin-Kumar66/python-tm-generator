@@ -13,16 +13,16 @@ var storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage: storage })
-if (fs.existsSync('public\\sample_input')) {
-    fs.rmSync('public\\sample_input', { recursive: true, force: true });
-}
+// if (fs.existsSync('public\\sample_input')) {
+//     fs.rmSync('public\\sample_input', { recursive: true, force: true });
+// }
 if (fs.existsSync("marksheets")) {
     fs.rmSync("marksheets", { recursive: true, force: true });
 }
 if (fs.existsSync("transcriptsIITP")) {
     fs.rmSync("transcriptsIITP", { recursive: true, force: true });
 }
-fs.mkdirSync('public\\sample_input');
+// fs.mkdirSync('public\\sample_input');
 
 app.use('/static', express.static(path.join(__dirname, 'public')))
 
