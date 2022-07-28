@@ -6,50 +6,52 @@ import sys
 
 if(not os.path.exists(r"marksheets")):
     os.mkdir(r"marksheets")
-lst_to_remove =os.listdir("marksheets")
+lst_to_remove = os.listdir("marksheets")
 for i in lst_to_remove:
-    if(i!="concise_marksheet.xlsx"): os.remove(f"marksheets\\{i}")
-if not os.path.exists(r"public\sample_input\master_roll.csv"): 
+    if(i != "concise_marksheet.xlsx"):
+        os.remove(f"marksheets//{i}")
+if not os.path.exists(r"public//sample_input//master_roll.csv"):
     print("please upload master_roll.csv file")
     exit()
-if not os.path.exists(r"public\sample_input\responses.csv"): 
+if not os.path.exists(r"public//sample_input//responses.csv"):
     print("please upload responses.csv file")
-    exit()     
-with open(r"public\sample_input\master_roll.csv", 'r') as file:
+    exit()
+with open(r"public//sample_input//master_roll.csv", 'r') as file:
     rows = csv.reader(file)
     MR = {line[0]: [line[1], 0, 0, 0] for line in rows if line[0] != "roll"}
-    m_lst=sorted(MR.keys())
-with open(r"public\sample_input\responses.csv", 'r') as file:
+    m_lst = sorted(MR.keys())
+with open(r"public//sample_input//responses.csv", 'r') as file:
     rows = csv.reader(file)
     Options_Name = {option[6].upper(): [element for element in option[7:]]
                     for option in rows if (option[6] != 'Roll Number' and option[6] != "")}
     try:
-        i_p, i_n, Final_Score, Final_Count = float(sys.argv[1]), float(sys.argv[2]), [], []
+        i_p, i_n, Final_Score, Final_Count = float(
+            sys.argv[1]), float(sys.argv[2]), [], []
     except:
-        print("Please enter valid input")  
+        print("Please enter valid input")
         exit()
     for Roll, options in Options_Name.items():
         Right, Wrong, Not_Attempt = 0, 0, 0
         for i, option in enumerate(options):
             try:
-              if (option == Options_Name["ANSWER"][i]):
-                Right += 1
-              elif(option):
-                Wrong += 1
-              else:
-                Not_Attempt += 1  
+                if (option == Options_Name["ANSWER"][i]):
+                    Right += 1
+                elif(option):
+                    Wrong += 1
+                else:
+                    Not_Attempt += 1
             except:
                 print("Please provide ANSWER in the responses.csv file")
                 exit()
         Final_Count.append(f"[{Right},{Wrong},{Not_Attempt}]")
         Final_Score.append(f"{Right*i_p+Wrong*i_n}/140")
-        try :
-          MR[f"{Roll}"][1], MR[f"{Roll}"][2], MR[f"{Roll}"][3] = Right, Wrong, Not_Attempt
+        try:
+            MR[f"{Roll}"][1], MR[f"{Roll}"][2], MR[f"{Roll}"][3] = Right, Wrong, Not_Attempt
         except:
             pass
 
 
-img = openpyxl.drawing.image.Image("public\\Title.png")
+img = openpyxl.drawing.image.Image("public//Title.png")
 right = openpyxl.styles.Alignment(horizontal='right')
 center = openpyxl.styles.Alignment(horizontal='center')
 bd = openpyxl.styles.Side(style='thin', color="000000")
@@ -100,21 +102,24 @@ for key in Options_Name.keys():
     for i, row in enumerate(ws.iter_cols(min_col=1, max_col=5, min_row=16, max_row=40)):
         for j, cell in enumerate(row):
             if(i == 1 or i == 4):
-              if ((j+24*(i//3)) < len(Options_Name["ANSWER"])):     
-                cell.value, cell.font = Options_Name["ANSWER"][j+24*(i//3)], blue
-                cell.border, cell.alignment = highlight, center
+                if ((j+24*(i//3)) < len(Options_Name["ANSWER"])):
+                    cell.value, cell.font = Options_Name["ANSWER"][j+24*(
+                        i//3)], blue
+                    cell.border, cell.alignment = highlight, center
             if(i == 0 or i == 3):
                 if key in Options_Name:
-                  if ((j+24*(i//2)) < len(Options_Name[key])):
-                    cell.value, cell.font = Options_Name[key][j+24*(i//2)], green
-                    cell.border, cell.alignment = highlight, center
-                    if cell.value != Options_Name["ANSWER"][j+24*(i//2)]:
-                        cell.font = red 
-    wb.save(f"marksheets\\{key}.xlsx")
+                    if ((j+24*(i//2)) < len(Options_Name[key])):
+                        cell.value, cell.font = Options_Name[key][j+24*(
+                            i//2)], green
+                        cell.border, cell.alignment = highlight, center
+                        if cell.value != Options_Name["ANSWER"][j+24*(i//2)]:
+                            cell.font = red
+    wb.save(f"marksheets//{key}.xlsx")
 for key in Options_Name:
-    if (key in m_lst):m_lst.remove(key)
+    if (key in m_lst):
+        m_lst.remove(key)
 
-for key in m_lst :
+for key in m_lst:
     wb = openpyxl.Workbook()
     ws = wb["Sheet"]
     ws.title = "quiz"
@@ -130,9 +135,9 @@ for key in m_lst :
     ws.append(["Roll Numer:", f"{key}", "", "Status:", "Absent"])
     ws.merge_cells('B6:C6')
     ws["B6"].font, ws["B7"].font, ws["E6"].font, ws["E7"].font = thick, thick, thick, red
-    ws["A6"].font, ws["A7"].font, ws["D6"].font,ws["D7"].font = element, element, element, element
-    ws["A6"].alignment, ws["A7"].alignment, ws["D6"].alignment,ws["D7"].alignment = right, right, right, right
-    wb.save(f"marksheets\\{key}.xlsx")
+    ws["A6"].font, ws["A7"].font, ws["D6"].font, ws["D7"].font = element, element, element, element
+    ws["A6"].alignment, ws["A7"].alignment, ws["D6"].alignment, ws["D7"].alignment = right, right, right, right
+    wb.save(f"marksheets//{key}.xlsx")
 
-shutil.make_archive("marksheets", 'zip', "marksheets")    
-print("Successfully generated roll number wise marksheets")    
+shutil.make_archive("marksheets", 'zip', "marksheets")
+print("Successfully generated roll number wise marksheets")

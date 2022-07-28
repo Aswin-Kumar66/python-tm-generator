@@ -9,10 +9,10 @@ from email import encoders
 from dotenv import load_dotenv
 load_dotenv('.env')
 
-if not os.path.exists(r"public\sample_input\responses.csv"):
+if not os.path.exists(r"public//sample_input//responses.csv"):
     print("please upload responses.csv file")
     exit()
-with open(r"public\sample_input\responses.csv", 'r') as file:
+with open(r"public//sample_input//responses.csv", 'r') as file:
     rows = csv.reader(file)
     addresses = {row[6]: [row[1], row[4]]
                  for row in rows if row[6] != "ANSWER" and row[6] != "Roll Number"}
@@ -43,7 +43,7 @@ for key, values in addresses.items():
     msg.attach(MIMEText(body, 'plain'))
     # open the file to be sent
     filename = f"{key}.xlsx"
-    attachment = open(rf"marksheets\{key}.xlsx", "rb")
+    attachment = open(rf"marksheets//{key}.xlsx", "rb")
 
     # instance of MIMEBase and named as p
     p = MIMEBase('application', 'octet-stream')

@@ -13,16 +13,16 @@ var storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage: storage })
-// if (fs.existsSync('public\\sample_input')) {
-//     fs.rmSync('public\\sample_input', { recursive: true, force: true });
-// }
+if (fs.existsSync('public//sample_input')) {
+    fs.rmSync('public//sample_input', { recursive: true, force: true });
+}
 if (fs.existsSync("marksheets")) {
     fs.rmSync("marksheets", { recursive: true, force: true });
 }
 if (fs.existsSync("transcriptsIITP")) {
     fs.rmSync("transcriptsIITP", { recursive: true, force: true });
 }
-// fs.mkdirSync('public\\sample_input');
+fs.mkdirSync('public//sample_input');
 
 app.use('/static', express.static(path.join(__dirname, 'public')))
 
@@ -49,14 +49,14 @@ app.post('/generateTranscripts', p1Upload, async (req, res) => {
     r_upto = req.body.r_upto;
     if (req.body.rng) {
         all = 0, flag1 = 1;
-        const result = spawnSync('python', ['pythonFiles\\transcript_Generator.py', r_from, r_upto, all, stmp, sgn]);
+        const result = spawnSync('python', ['pythonFiles//transcript_Generator.py', r_from, r_upto, all, stmp, sgn]);
         message1 = result.stdout.toString();
         error = result.stderr.toString();
         console.log(error)
     }
     if (req.body.all) {
         all = 1, flag1 = 1;
-        const result = spawnSync('python', ['pythonFiles\\transcript_Generator.py', r_from, r_upto, all, stmp, sgn]);
+        const result = spawnSync('python', ['pythonFiles//transcript_Generator.py', r_from, r_upto, all, stmp, sgn]);
         message1 = result.stdout.toString();
         error = result.stderr.toString();
         console.log(error)
@@ -80,12 +80,12 @@ app.post('/generateMarksheets', p2Upload, async (req, res) => {
     negative = req.body.negative;
     if (fs.existsSync('public//sample_input//master_roll.csv')) {
         // path exists
-        console.log("exists:", 'public\\sample_input\\master_roll.csv');
+        console.log("exists:", 'public//sample_input//master_roll.csv');
     } else {
-        console.log("DOES NOT exist:", 'public\\sample_input\\master_roll.csv');
+        console.log("DOES NOT exist:", 'public//sample_input//master_roll.csv');
     }
     if (req.body.Roll_Number_wise) {
-        const result = spawnSync('python', ['marksheet_Generator.py', positive, negative]);
+        const result = spawnSync('python', ['pythonFiles//marksheet_Generator.py', positive, negative]);
         message = result.stdout.toString();
         error = result.stderr.toString();
         console.log(error)
@@ -97,7 +97,7 @@ app.post('/generateMarksheets', p2Upload, async (req, res) => {
         return res.download('./marksheets.zip',);
     }
     if (req.body.Email) {
-        const result = spawnSync('python', ['pythonFiles\\send_Email.py']);
+        const result = spawnSync('python', ['pythonFiles//send_Email.py']);
         message = result.stdout.toString();
         error = result.stderr.toString();
         console.log(error);

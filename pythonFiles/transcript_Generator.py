@@ -6,13 +6,13 @@ def generate_transcript():
     import shutil
     import sys
 
-    if not os.path.exists(f"public\\sample_input\\grades.csv"):
+    if not os.path.exists(f"public//sample_input//grades.csv"):
         print(f"please upload grades.csv file")
         exit()
-    if not os.path.exists(f"public\\sample_input\\names-roll.csv"):
+    if not os.path.exists(f"public//sample_input//names-roll.csv"):
         print(f"please upload names-roll.csv file")
         exit()
-    if not os.path.exists(f"public\\sample_input\\subjects_master.csv"):
+    if not os.path.exists(f"public//sample_input//subjects_master.csv"):
         print(f"please upload subjects_master.csv file")
         exit()
 
@@ -20,7 +20,7 @@ def generate_transcript():
     stmp, sgn = sys.argv[4], sys.argv[5]
     r_from, r_upto = sys.argv[1].upper().strip().strip(
         "'"), sys.argv[2].upper()
-    with open(r"public\sample_input\names-roll.csv", 'r') as file:
+    with open(r"public//sample_input//names-roll.csv", 'r') as file:
         rows = csv.reader(file)
         rlnm = {line[0]: line[1].strip() for line in rows if line[0] != "Roll"}
         ordlst = sorted(rlnm.keys())
@@ -40,7 +40,7 @@ def generate_transcript():
         shutil.rmtree("tmp_csv_output")
     os.makedirs("transcriptsIITP")
     os.makedirs("tmp_csv_output")
-    with open(r"public\sample_input\subjects_master.csv", 'r') as file:
+    with open(r"public//sample_input//subjects_master.csv", 'r') as file:
         rows = csv.reader(file)
         sbj = {line[0]: [line[1], line[2]]
                for line in rows if line[0] != "subno"}
@@ -49,7 +49,7 @@ def generate_transcript():
     u = {i: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] for i in rlnm}
     s = {i: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] for i in rlnm}
     f = {i: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] for i in rlnm}
-    with open(r"public\sample_input\grades.csv", 'r') as file:
+    with open(r"public//sample_input//grades.csv", 'r') as file:
         rows = csv.reader(file)
         for line in rows:
             if line[0] == 'Roll':
@@ -60,12 +60,12 @@ def generate_transcript():
                                              ][int(line[1])] + int(line[3])
             u[line[0]][int(line[1])] = u[line[0]][int(line[1])] + \
                 int(line[3])*int(rplc[line[4].strip().strip("*")])
-            if(not os.path.isfile(f"tmp_csv_output\\{line[0]}_{line[1]}.csv")):
-                with open(f"tmp_csv_output\\{line[0]}_{line[1]}.csv", "a", newline='') as file:
+            if(not os.path.isfile(f"tmp_csv_output//{line[0]}_{line[1]}.csv")):
+                with open(f"tmp_csv_output//{line[0]}_{line[1]}.csv", "a", newline='') as file:
                     writer = csv.writer(file)
                     writer.writerow(
                         ["Sub. Code", "Subject Name", "L-T-P", "CRD", "GRD"])
-            with open(f"tmp_csv_output\\{line[0]}_{line[1]}.csv", "a", newline='') as file:
+            with open(f"tmp_csv_output//{line[0]}_{line[1]}.csv", "a", newline='') as file:
                 writer = csv.writer(file)
                 writer.writerow([line[2], sbj[line[2]][0],
                                 sbj[line[2]][1], line[3], line[4]])
@@ -130,18 +130,18 @@ def generate_transcript():
             pdf.cell(1, 0, f"Date Generated:  _________________")
             pdf.set_xy(285, 270)
             pdf.cell(1, 0, "Assistant Registrar(Academic):   ___________________")
-            pdf.image("public\\logo.jpg", 23, 12, 20, 20)
-            pdf.image("public\\logo.jpg", 378, 12, 20, 20)
-            pdf.image("public\\title.jpg", 83, 11, 250, 20)
-            if stmp != "" and os.path.exists(f"public\\sample_input\\{stmp}"):
-                pdf.image(f"public\\sample_input\\{stmp}", 185, 255, 25, 25)
-            if sgn != "" and os.path.exists(f"public\\sample_input\\{sgn}"):
-                pdf.image(f"public\\sample_input\\{sgn}", 330, 254, 65, 20)
+            pdf.image("public//logo.jpg", 23, 12, 20, 20)
+            pdf.image("public//logo.jpg", 378, 12, 20, 20)
+            pdf.image("public//title.jpg", 83, 11, 250, 20)
+            if stmp != "" and os.path.exists(f"public//sample_input//{stmp}"):
+                pdf.image(f"public//sample_input//{stmp}", 185, 255, 25, 25)
+            if sgn != "" and os.path.exists(f"public//sample_input//{sgn}"):
+                pdf.image(f"public//sample_input//{sgn}", 330, 254, 65, 20)
             for i, el in enumerate(r[key]):
-                with open(f"tmp_csv_output\\{key}_{el}.csv", 'r') as file:
+                with open(f"tmp_csv_output//{key}_{el}.csv", 'r') as file:
                     rows = csv.reader(file)
                     pdf.improved_table(i, el, key, rows)
-            pdf.output(f'transcriptsIITP\\{key}.pdf')
+            pdf.output(f'transcriptsIITP//{key}.pdf')
             if (not all):
                 if(key in nlst):
                     nlst.remove(key)
